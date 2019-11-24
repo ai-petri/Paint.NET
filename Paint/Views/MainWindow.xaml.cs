@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -264,6 +266,33 @@ namespace Paint
         private void ArrowButton_Unchecked(object sender, RoutedEventArgs e)
         {
             canvas.Cursor = Cursors.Cross;
+        }
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                FileName = "image.jpg",
+                Filter = "JPEG ( *.jpg )|*.jpg|BMP ( *.bmp )|*.bmp|TIFF ( *.tif )|*.tif"
+            };
+           
+            if(dialog.ShowDialog(this) == true)
+            {
+                RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap((int)canvas.ActualWidth, (int)canvas.ActualHeight, 96, 96, PixelFormats.Default);
+                renderTargetBitmap.Render(canvas);
+
+                BitmapEncoder encoder = 
+                    dialog.FilterIndex == 0 ? (BitmapEncoder) new JpegBitmapEncoder { QualityLevel = 100 } :
+                    dialog.FilterIndex == 1 ? (BitmapEncoder) new BmpBitmapEncoder () :
+                                              (BitmapEncoder) new TiffBitmapEncoder { Compression = TiffCompressOption.None }; 
+                
+                encoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
+                using (FileStream fs = File.Create(dialog.FileName))
+                {
+                    encoder.Save(fs);
+                }
+            }
         }
     }
 }

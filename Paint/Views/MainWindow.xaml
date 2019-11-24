@@ -98,8 +98,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -107,15 +108,18 @@
         </Grid.ColumnDefinitions>
 
 
-        <Canvas Name="canvas" Grid.Row="1" Grid.Column="1" Background="White" Cursor="Cross" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
-
-
-        </Canvas>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="_File">
+                <MenuItem Header="Save As..." Click="SaveAs_Click"/>
+            </MenuItem>
+        </Menu>
+        
+        
 
 
         <!-- ***********************************************************  ↓ Верхняя панель  ↓ ********************************************************************-->
         
-        <ToolBar Grid.Row="0" Padding="5" Grid.ColumnSpan="2">
+        <ToolBar Grid.Row="1" Padding="5" Grid.ColumnSpan="2">
 
         <!--  Картинка -->
             
@@ -221,7 +225,7 @@
         
 <!--***************************************************  ↓ Левая панель  ↓  ************************************************************-->
         
-        <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" BorderBrush="LightGray" Background="White">
+        <Border Grid.Row="2" Grid.Column="0" BorderThickness="1" BorderBrush="LightGray" Background="White">
             <StackPanel Margin="3" >
 
                 <RadioButton Margin="0,10,0,0" Name="ArrowButton" Width="30" Height="30" GroupName="buttons" Checked="ArrowButton_Checked" Unchecked="ArrowButton_Unchecked">
@@ -285,10 +289,11 @@
             </StackPanel>
         </Border>
 
-      
-        
-            
-        
+        <Border Grid.Row="2" Grid.Column="1">
+        <Canvas Name="canvas"  Background="White" Cursor="Cross" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp"/>
+        </Border>
+
+
     </Grid>
 </Window>
 
